@@ -1,0 +1,4 @@
+
+yarn run test:unit
+yarn run lint
+yarn lint-staged
