@@ -1,0 +1,116 @@
+{
+  "author": "Internxt <hello@internxt.com>",
+  "version": "1.5.3",
+  "description": "Internxt CLI to manage your encrypted storage",
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rimraf dist tsconfig.tsbuildinfo oclif.manifest.json",
+    "lint": "eslint .",
+    "pretty": "prettier --write **/*.{js,jsx,tsx,ts}",
+    "postpack": "rimraf oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "yarn build && oclif manifest && oclif readme",
+    "prepare": "husky || true",
+    "test": "yarn test:unit",
+    "test:unit": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "dev:webdav": "nodemon -e ts --exec ts-node src/webdav/index.ts",
+    "pack:win": "oclif pack win",
+    "publish:npm": "npm run build && npm publish --scope=@internxt --registry=https://registry.npmjs.org/ --access public",
+    "publish:github": "npm run build && npm publish --scope=@internxt --registry=https://npm.pkg.github.com",
+    "postinstall": "node ./scripts/restart-webdav.js"
+  },
+  "homepage": "https://github.com/internxt/cli",
+  "license": "MIT",
+  "main": "",
+  "name": "@internxt/cli",
+  "repository": "https://github.com/internxt/cli",
+  "bugs": "https://github.com/internxt/cli",
+  "types": "dist/index.d.ts",
+  "files": [
+    ".env",
+    "/bin",
+    "/dist",
+    "/scripts",
+    "/oclif.manifest.json"
+  ],
+  "dependencies": {
+    "@inquirer/prompts": "7.5.0",
+    "@internxt/inxt-js": "2.1.0",
+    "@internxt/lib": "1.2.1",
+    "@internxt/sdk": "1.7.0",
+    "@oclif/core": "4.3.0",
+    "@types/validator": "13.15.0",
+    "async": "3.2.6",
+    "axios": "1.9.0",
+    "bip39": "3.1.0",
+    "body-parser": "2.2.0",
+    "cli-progress": "3.12.0",
+    "dayjs": "1.11.13",
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "express-async-handler": "1.2.0",
+    "express-basic-auth": "1.2.1",
+    "fast-xml-parser": "5.2.2",
+    "mime-types": "3.0.1",
+    "openpgp": "5.11.2",
+    "pm2": "6.0.5",
+    "range-parser": "1.2.1",
+    "reflect-metadata": "0.2.2",
+    "selfsigned": "2.4.1",
+    "sharp": "0.34.1",
+    "tty-table": "4.2.3",
+    "winston": "3.17.0"
+  },
+  "devDependencies": {
+    "@internxt/eslint-config-internxt": "2.0.0",
+    "@internxt/prettier-config": "internxt/prettier-config#v1.0.2",
+    "@oclif/test": "4.1.12",
+    "@openpgp/web-stream-tools": "0.0.11-patch-1",
+    "@types/async": "3.2.24",
+    "@types/cli-progress": "3.11.6",
+    "@types/express": "5.0.1",
+    "@types/mime-types": "2.1.4",
+    "@types/node": "22.15.16",
+    "@types/range-parser": "1.2.7",
+    "@vitest/coverage-istanbul": "3.1.3",
+    "@vitest/spy": "3.1.3",
+    "eslint": "9.26.0",
+    "husky": "9.1.7",
+    "lint-staged": "15.5.2",
+    "nock": "14.0.4",
+    "nodemon": "3.1.10",
+    "oclif": "4.17.46",
+    "prettier": "3.5.3",
+    "rimraf": "6.0.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3",
+    "vitest": "3.1.3",
+    "vitest-mock-express": "2.2.0"
+  },
+  "engines": {
+    "node": ">=20.12.1"
+  },
+  "bin": {
+    "internxt": "./bin/run.js"
+  },
+  "oclif": {
+    "bin": "internxt",
+    "dirname": "internxt-cli",
+    "commands": "./dist/commands",
+    "plugins": [],
+    "topicSeparator": " ",
+    "topics": {},
+    "hooks": {
+      "prerun": "./dist/hooks/prerun/auth_check"
+    },
+    "macos": {
+      "identifier": "com.internxt.cli"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,tsx,ts}": [
+      "prettier --write"
+    ]
+  }
+}
